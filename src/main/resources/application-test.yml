@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: h2test
+    password: h2test
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+  h2:
+    console:
+      settings:
+        web-allow-other: true
+      path: /h2-console
+      enabled: true
+

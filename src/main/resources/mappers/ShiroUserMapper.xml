@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codes.blues.dao.shiro.ShiroUserMapper" >
+
+    <resultMap id="UserMap" type="com.codes.blues.dao.shiro.model.ShiroUser" >
+        <id property="id" column="ID" jdbcType="VARCHAR" />
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+        <collection property="roles" resultMap="RoleMap"/>
+    </resultMap>
+
+    <resultMap id="RoleMap" type="com.codes.blues.dao.shiro.model.ShiroRole" >
+        <id property="id" column="ROLE_ID" jdbcType="VARCHAR"/>
+        <result property="roleName" column="ROLE_NAME" jdbcType="VARCHAR" />
+        <collection property="permissions" resultMap="PermissionsMap"/>
+    </resultMap>
+
+    <resultMap id="PermissionsMap" type="com.codes.blues.dao.shiro.model.ShiroPermissions" >
+        <id property="id" column="PERMISSIONS_ID"/>
+        <result property="permissionsName" column="PERMISSIONS_NAME"/>
+    </resultMap>
+
+    <select id="getShiroUserByUserId" resultMap="UserMap">
+        SELECT
+            u.ID,
+            u.USER_NAME,
+            u. PASSWORD,
+            r.ID AS ROLE_ID,
+            r.ROLE_NAME,
+            p.ID AS PERMISSION_ID,
+            p.PERMISSIONS_NAME
+        FROM
+            SHIRO_USER u
+        INNER JOIN SHIRO_USER_ROLE ur ON ur.USER_ID = u.ID
+        INNER JOIN SHIRO_ROLE r ON ur.ROLE_ID = r.ID
+        INNER JOIN SHIRO_ROLE_PERMISSION rp ON rp.ROLE_ID = r.ID
+        INNER JOIN SHIRO_PERMISSIONS p ON p.ID = rp.PERMISSION_ID
+    </select>
+</mapper>

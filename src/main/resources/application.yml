@@ -1,0 +1,67 @@
+# 项目信息配置
+project:
+  env: development
+
+user:
+  param:
+    nginx:
+      value: 33
+  mapper:
+    hot:
+      deploy: true #打开mybatis xml热部署 1 打开 0 关闭
+
+# 服务器配置
+server:
+  port: 8080
+
+# Spring配置
+spring:
+  # 激活配置文件
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    ## 默认日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+  #jpa
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: com.codes.blues.config.MySQL5DialectUTF8
+  redis:
+    database: 0
+    host: 192.168.12.111
+    port: 6379
+    password: Lin88755110
+    timeout: 30000ms
+    jedis:
+      pool:
+        max-active: 50
+        max-idle: 50
+        min-idle: 0
+        max-wait: 1000ms
+
+  kafka:
+    bootstrap-servers: 192.168.12.111:9092
+    consumer:
+      group-id: test-consumer-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml #对应mappers映射xml文件的所在路径
+  configuration:
+    map-underscore-to-camel-case: true # 使用resultType时自动将下划线转为驼峰命名
+
+# 日志配置
+logback:
+  level: INFO
+  appender: ${project.env}
