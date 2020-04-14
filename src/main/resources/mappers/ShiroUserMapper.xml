@@ -27,7 +27,7 @@
             u. PASSWORD,
             r.ID AS ROLE_ID,
             r.ROLE_NAME,
-            p.ID AS PERMISSION_ID,
+            p.ID AS PERMISSIONS_ID,
             p.PERMISSIONS_NAME
         FROM
             SHIRO_USER u

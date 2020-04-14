@@ -1,5 +1,6 @@
 package com.codes.blues.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -7,10 +8,14 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 主要配置多视图实现的视图解析器相关bean实例,将该视图解析器注册到容器中
@@ -42,20 +47,14 @@ public class ViewResolverConfiguration {
         @Bean
         public ITemplateResolver templateResolver() {
             SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-            templateResolver.setTemplateMode("HTML5");
+            templateResolver.setTemplateMode("HTML");
             templateResolver.setPrefix("WEB-INF/");
             templateResolver.setSuffix(".html");
             templateResolver.setCharacterEncoding("utf-8");
             templateResolver.setCacheable(false);
             return templateResolver;
         }
-        @Bean
-        public SpringTemplateEngine templateEngine() {
-            SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-            templateEngine.setTemplateResolver(templateResolver());
-            // templateEngine
-            return templateEngine;
-        }
+
         @Bean
         public ThymeleafViewResolver viewResolverThymeLeaf() {
             ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -69,6 +68,28 @@ public class ViewResolverConfiguration {
         @Override
         public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
             configurer.enable();
+        }
+
+        @Bean
+        public SpringTemplateEngine templateEngine() {
+            SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver());
+            // 添加Shiro标签支持
+            templateEngine.setEnableSpringELCompiler(true);
+            Set<IDialect> additionalDialects = new LinkedHashSet<IDialect>();
+            additionalDialects.add(getShiroDialect());
+            templateEngine.setAdditionalDialects(additionalDialects);
+            // 添加Shiro标签支持 结束
+            return templateEngine;
+        }
+
+        /*
+         * 配置ShiroDialect，用于Thymeleaf和Shiro标签配合使用
+         */
+        @Bean
+        public ShiroDialect getShiroDialect() {
+            System.out.println("==========ShiroDialect=================");
+            return new ShiroDialect();
         }
 
         /**

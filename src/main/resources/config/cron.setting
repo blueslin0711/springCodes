@@ -1,2 +1,2 @@
 [com.codes.blues.task]
-TestTask.run = * * * * *
+TestTask.run = */10 * * * *

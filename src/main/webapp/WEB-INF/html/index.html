@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+</head>
+<body>
+<h1>index</h1>
+<shiro:user>
+    欢迎您:<shiro:principal/>
+</shiro:user>
+<shiro:hasRole name="A1">
+    <span>拥有A1权限</span>
+</shiro:hasRole>
+<shiro:hasRole name="A5">
+    <span>拥有A5权限</span>
+</shiro:hasRole>
+</body>
+</html>
