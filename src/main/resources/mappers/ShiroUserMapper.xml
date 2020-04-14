@@ -35,5 +35,10 @@
         INNER JOIN SHIRO_ROLE r ON ur.ROLE_ID = r.ID
         INNER JOIN SHIRO_ROLE_PERMISSION rp ON rp.ROLE_ID = r.ID
         INNER JOIN SHIRO_PERMISSIONS p ON p.ID = rp.PERMISSION_ID
+        <where>
+            <if test="id!=null and id!=''">
+                and u.ID = #{id}
+            </if>
+        </where>
     </select>
 </mapper>

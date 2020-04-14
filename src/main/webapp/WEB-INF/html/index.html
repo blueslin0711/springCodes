@@ -12,9 +12,21 @@
 </shiro:user>
 <shiro:hasRole name="A1">
     <span>拥有A1权限</span>
+    <shiro:hasAllPermissions name="P1,P2,P3,P4">
+        拥有的权限:拥有P1-P4所有权限
+    </shiro:hasAllPermissions>
 </shiro:hasRole>
-<shiro:hasRole name="A5">
-    <span>拥有A5权限</span>
+<shiro:hasRole name="A2">
+    <span>拥有A2权限</span>
+    <shiro:hasAllPermissions name="P1,P2,P3,P4">
+        拥有的权限:拥有P1-P4所有权限
+    </shiro:hasAllPermissions>
+    <shiro:hasAllPermissions name="P4">
+        拥有的权限:拥有P4权限
+    </shiro:hasAllPermissions>
 </shiro:hasRole>
+<div>
+    <a href="/logout">登出</a>
+</div>
 </body>
 </html>
